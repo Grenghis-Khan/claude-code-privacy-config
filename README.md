@@ -588,7 +588,8 @@ Not:
 ```bash
 # In your project repo
 mkdir -p .claude
-#copy the global settings.json above into .claude/settings.json
+# copy the project settings.json template above into .claude/settings.json
+# then customize it as needed for your project
 git add .claude/settings.json
 git commit -m "Add Claude Code privacy configuration"
 git push
