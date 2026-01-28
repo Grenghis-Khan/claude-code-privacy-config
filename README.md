@@ -13,6 +13,7 @@ A comprehensive guide to configuring Claude Code with balanced privacy and funct
 5. [Verification Checklist](#verification-checklist)
 6. [What This Does (and Doesn't Do)](#what-this-does-and-doesnt-do)
 7. [Troubleshooting](#troubleshooting)
+
 ---
 
 ## Understanding the Privacy Landscape
@@ -77,11 +78,11 @@ These settings apply to **all your projects** globally.
 
 ### File Location by Operating System
 
-|Operating System|Path|
-|---|---|
-|**macOS**|`~/.claude/settings.json`|
-|**Linux**|`~/.claude/settings.json`|
-|**Windows**|`C:\Users\<YourUsername>\.claude\settings.json`|
+| Operating System | Path                                            |
+| ---------------- | ----------------------------------------------- |
+| **macOS**        | `~/.claude/settings.json`                       |
+| **Linux**        | `~/.claude/settings.json`                       |
+| **Windows**      | `C:\Users\<YourUsername>\.claude\settings.json` |
 
 ### Creating the Settings File
 
@@ -108,12 +109,12 @@ notepad "$env:USERPROFILE\.claude\settings.json"
 ### User Settings Configuration
 
 > ⚠️ Security Note: This configuration uses `**/` glob patterns (e.g., `Read(**/.env)`) to block sensitive files **anywhere** in your project tree, including nested directories and packages. This ensures protection in monorepo structures like:
+>
 > - `packages/api/.env`
 > - `apps/frontend/.env.local`
 > - `services/auth/secrets/`
-> 
->Always use `**/` patterns for security-critical files to ensure complete protection in monorepos and nested project structures.
-
+>
+> Always use `**/` patterns for security-critical files to ensure complete protection in monorepos and nested project structures.
 
 Copy this configuration into your `~/.claude/settings.json`:
 
@@ -254,10 +255,9 @@ Copy this configuration into your `~/.claude/settings.json`:
 
 ## Step 3: Configure Project-Level Privacy Settings
 
-These settings are **specific to each project** and can be shared with your team via git. Use `.claude/settings.json` to apply to the **whole project** and **all team members** working on the project and `.claude/settings.local.json` to **only apply** to **your machine**. 
+These settings are **specific to each project** and can be shared with your team via git. Use `.claude/settings.json` to apply to the **whole project** and **all team members** working on the project and `.claude/settings.local.json` to **only apply** to **your machine**.
 
-> - Make sure to add `.claude/settings.local.json` to `.gitignore` so it doesn't override other team members settings. 
-> 
+> - Make sure to add `.claude/settings.local.json` to `.gitignore` so it doesn't override other team members settings.
 > - Keep project settings minimal - just project-specific overrides.
 
 ### File Location
@@ -304,6 +304,7 @@ Create `.claude/settings.json`:
 **Note**: You don't need to repeat rules from `~/.claude/settings.json`. The global settings automatically apply to all projects. Only add project-specific rules here that are unique to this project.
 
 **When to use project settings:**
+
 - Block additional project-specific files (e.g., `Read(./internal-docs/**)`)
 - Override global allow rules for this project only
 - Add project-specific company announcements
@@ -436,18 +437,18 @@ source ~/.zshrc
 
 ### Comparison to Cursor Privacy Mode
 
-|Feature|Cursor Privacy Mode|Claude Code (This Config)|
-|---|---|---|
-|Block sensitive files|✅ Yes|✅ Yes|
-|Disable telemetry|✅ Yes|✅ Yes|
-|Reduced retention|✅ Yes (30 days)|✅ Yes (30 days)|
-|Web access for docs|✅ Yes|✅ Yes|
-|Read dependencies|✅ Yes|✅ Yes|
-|Auto-updates|✅ Yes|✅ Yes|
-|Ask mode for critical ops|✅ Yes|✅ Yes|
-|Zero server storage|✅ Yes (Ghost Mode)|❌ No|
-|Local-only processing|✅ Yes (Ghost Mode)|❌ No|
-|Privacy tiers|✅ Yes (3 modes)|⚠️ Partial (2 modes)|
+| Feature                   | Cursor Privacy Mode | Claude Code (This Config) |
+| ------------------------- | ------------------- | ------------------------- |
+| Block sensitive files     | ✅ Yes              | ✅ Yes                    |
+| Disable telemetry         | ✅ Yes              | ✅ Yes                    |
+| Reduced retention         | ✅ Yes (30 days)    | ✅ Yes (30 days)          |
+| Web access for docs       | ✅ Yes              | ✅ Yes                    |
+| Read dependencies         | ✅ Yes              | ✅ Yes                    |
+| Auto-updates              | ✅ Yes              | ✅ Yes                    |
+| Ask mode for critical ops | ✅ Yes              | ✅ Yes                    |
+| Zero server storage       | ✅ Yes (Ghost Mode) | ❌ No                     |
+| Local-only processing     | ✅ Yes (Ghost Mode) | ❌ No                     |
+| Privacy tiers             | ✅ Yes (3 modes)    | ⚠️ Partial (2 modes)      |
 
 ---
 
@@ -513,7 +514,7 @@ source ~/.zshrc
 {
   "permissions": {
     "allow": [
-      "WebFetch"  // Add it here to allow
+      "WebFetch" // Add it here to allow
     ],
     "deny": [
       // Remove "WebFetch" from here
@@ -528,7 +529,7 @@ source ~/.zshrc
 {
   "permissions": {
     "ask": [
-      "WebFetch"  // Prompt before each web fetch
+      "WebFetch" // Prompt before each web fetch
     ]
   }
 }
@@ -553,12 +554,15 @@ If set to `"1"`, change it to `"0"` or remove the line entirely.
 **Problem**: `.env` files in subdirectories aren't being blocked
 
 **Solution**: Make sure you're using `**/` glob patterns:
+
 ```json
 "deny": [
   "Read(**/.env)"  // ✅ Correct - blocks everywhere
 ]
 ```
+
 Not:
+
 ```json
 "deny": [
   "Read(./.env)"   // ❌ Wrong - only blocks root
@@ -568,6 +572,7 @@ Not:
 **Problem**: Settings seem to conflict between global and project
 
 **Solution**: Remember the hierarchy:
+
 - `deny` rules from ALL levels combine (most restrictive)
 - Higher precedence levels override lower for the same rule
 - Project settings don't need to repeat global settings
@@ -583,7 +588,7 @@ Not:
 ```bash
 # In your project repo
 mkdir -p .claude
-cp /path/to/this/guide/settings.json .claude/settings.json
+#copy the global settings.json above into .claude/settings.json
 git add .claude/settings.json
 git commit -m "Add Claude Code privacy configuration"
 git push
